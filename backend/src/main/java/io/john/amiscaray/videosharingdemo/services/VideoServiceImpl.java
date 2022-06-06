@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class VideoServiceImpl implements VideoService {
 
     private VideoRepo repo;
 
+    @Transactional
     @Override
     public Video getVideo(String name) {
         if(!repo.existsByName(name)){

@@ -4,6 +4,7 @@ import io.john.amiscaray.videosharingdemo.services.VideoService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +31,10 @@ public class VideoController {
     // {name} is a path variable in the url. It is extracted as the String parameter annotated with @PathVariable
     @GetMapping("{name}")
     public ResponseEntity<Resource> getVideoByName(@PathVariable("name") String name){
-
-        return ResponseEntity
-                .ok(new ByteArrayResource(videoService.getVideo(name).getData()));
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-type",
+                "video/mp4");
+        return ResponseEntity.ok().headers(responseHeaders).body(new ByteArrayResource(videoService.getVideo(name).getData()));
 
     }
 
